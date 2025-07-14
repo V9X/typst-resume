@@ -1,0 +1,29 @@
+# TODO: Add normal example(s)
+
+header:
+  name: todo
+  title: todo
+  # image: "todo.png"
+  intro: todo
+  contact:
+    github: todo
+    linkedin: todo
+    email: todo
+    phone: todo
+    location: todo
+skills: 
+  todo: [todo]
+experience:
+  - title: todo
+    company: todo
+    date_from: todo
+    date_to: todo
+    description:
+    - todo
+languages:
+  todo: todo
+education:
+  - title: todo
+    place: todo
+    date_from: todo
+    date_to: todo

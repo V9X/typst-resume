@@ -1,8 +1,3 @@
-/*
-TODO:
-  - Include fontawesome for icons
-*/
-
 #let font_size(..p) = 10pt * calc.pow(1.125, p.at(0, default: 0))
 #let yaml = yaml(sys.inputs.at("loc", default: "./templates/example.yaml"))
 #let doc = (

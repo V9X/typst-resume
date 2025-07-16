@@ -1,11 +1,25 @@
 #!/bin/bash
 
-if [ $# = 1 ]; then
-    typst watch --ignore-system-fonts --font-path ./assets --input loc=./templates/"$1" resume.typ ./output/"${1%.*}.pdf"
-    exit;
+SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" &> /dev/null && pwd)"
+
+INPUT_PATH=$(realpath "${1:-"./example.yaml"}")
+INPUT_DIR=$(dirname "$INPUT_PATH")
+INPUT_FILE=$(basename "$INPUT_PATH")
+
+OUTPUT_PATH=${2:-"$INPUT_DIR/${INPUT_FILE%.*}.pdf"}
+
+ROOT_PATH=$INPUT_DIR
+FILE_PATH="/$INPUT_FILE"
+
+if [[ $INPUT_PATH == $SCRIPT_DIR* ]]; then
+    ROOT_PATH=$SCRIPT_DIR
+    FILE_PATH="${INPUT_PATH:${#SCRIPT_DIR}}"
 fi
 
-for path in ./templates/*.yaml; do
-    filename=$(basename "$path")
-    typst compile --ignore-system-fonts --font-path ./assets --input loc="$path" resume.typ ./output/"${filename%.*}".pdf
-done
+typst compile \
+    --root "$ROOT_PATH" \
+    --ignore-system-fonts \
+    --font-path "./assets" \
+    --input "loc=$FILE_PATH" \
+    "$SCRIPT_DIR/src/resume.typ" \
+    "$OUTPUT_PATH"

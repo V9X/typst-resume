@@ -1,5 +1,0 @@
-/templates/*
-!templates/example.yaml
-
-/output/*
-!/output/example.pdf

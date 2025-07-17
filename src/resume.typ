@@ -1,5 +1,5 @@
 #let font_size(..p) = 10pt * calc.pow(1.125, p.at(0, default: 0))
-#let yaml = yaml(sys.inputs.at("loc", default: "/example.yaml"))
+#let yaml = yaml(sys.inputs.at("loc", default: "../examples/example.yaml"))
 #let doc = (
   heading_spacing_above: 20pt,
   heading_spacing_below: 10pt,

@@ -1,9 +1,14 @@
 #!/bin/bash
 
-SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" &> /dev/null && pwd)"
+FIRST_FILE=$(set -- *.yaml; echo "$1")
+if [ -z "$1" ] && [ "$FIRST_FILE" = "*.yaml" ]; then
+    echo "Error: No .yaml files found in the current directory." >&2 
+    exit 1
+fi
 
-INPUT_PATH=$(realpath "${1:-"./example.yaml"}")
+INPUT_PATH=$(realpath "${1:-${FIRST_FILE}}")
 OUTPUT_PATH=$(realpath "${2:-${INPUT_PATH%.*}.pdf}")
+SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" &> /dev/null && pwd)"
 
 typst compile \
     --root / \

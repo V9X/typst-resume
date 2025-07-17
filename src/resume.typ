@@ -101,7 +101,7 @@
   )
 
   #if "intro" in yaml.header {
-    v(20pt, weak: true)
+    v(18pt, weak: true)
     yaml.header.intro
   }
 ]

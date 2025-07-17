@@ -14,7 +14,7 @@ typst compile \
     --root / \
     --creation-timestamp 1112470620 \
     --ignore-system-fonts \
-    --font-path "./assets" \
+    --font-path "$SCRIPT_DIR/src/assets" \
     --input "loc=$INPUT_PATH" \
     "$SCRIPT_DIR/src/resume.typ" \
     "$OUTPUT_PATH"

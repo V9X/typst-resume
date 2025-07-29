@@ -1,16 +1,17 @@
-#let font_size(..p) = 10pt * calc.pow(1.125, p.at(0, default: 0))
+#let font_size(..p) = 10pt * calc.pow(1.250, p.at(0, default: 0))
 #let yaml = yaml(sys.inputs.at("loc", default: "../examples/example.yaml"))
 #let doc = (
-  heading_spacing_above: 20pt,
-  heading_spacing_below: 10pt,
+  heading_spacing_above: 25pt,
+  name_title_spacing: 8pt,
+  title_contact_spacing: 10pt,
   leading: 6pt,
+  spacing: 8pt,
 )
 
 #set page(paper: "a4", margin: (x: 1.5cm, y: 2cm))
 #set text(font: "new computer modern", font_size())
-#set par(leading: doc.leading, spacing: 8pt)
+#set par(leading: doc.leading, spacing: doc.spacing)
 #set grid(row-gutter: doc.leading)
-#set list(marker: align(horizon, text("\u{f054}", size: 7pt)))
 #show link: c => text(c, weight: "bold")
 
 #let section(name, opt: none, content) = {
@@ -19,14 +20,14 @@
     stroke: (bottom: stroke(0.7pt)),
     width: 100%,
     above: doc.heading_spacing_above,
-    below: doc.heading_spacing_below,
+    below: doc.heading_spacing_above / 2,
     heading(text(name, weight: "bold", font_size(1))),
   )
 
   block(inset: (x: 1%), content)
 }
 
-#let split(..items) = block(below: doc.heading_spacing_below, above: doc.heading_spacing_above, grid(
+#let split(..items) = block(below: doc.heading_spacing_above / 2, above: doc.heading_spacing_above, grid(
   columns: (1fr, 1fr),
   column-gutter: 50pt,
   ..items,
@@ -35,14 +36,16 @@
 
 #block()[
   #let header_informations = [
-    #text(yaml.header.name, font_size(6), weight: "bold") \
-    #text(yaml.header.title, font_size(3)) \
+    #text(yaml.header.name, font_size(3), weight: "bold") \
+    #v(doc.name_title_spacing, weak: true)
+    #text(yaml.header.title, font_size(2)) \
+    #v(doc.title_contact_spacing, weak: true)
 
     #for (key, value) in yaml.header.contact {
       let display_contact(icon, content) = {
         box(inset: (left: 1pt))[
           #icon
-          #h(6pt, weak: true)
+          #h(5pt, weak: true)
           #content
         ]
       }
@@ -98,7 +101,7 @@
   )
 
   #if "intro" in yaml.header {
-    v(15pt, weak: true)
+    v(18pt, weak: true)
     yaml.header.intro
   }
 ]
@@ -123,7 +126,7 @@
   for (title, company, date_from, date_to, description, ..rest) in yaml.experience {
     let skills = rest.at("skills", default: none)
 
-    block(below: 10pt, grid(
+    block(below: doc.heading_spacing_above / 2, grid(
       columns: (dates_width, auto),
       align: right,
       grid.cell([#date_to \ #date_from], inset: (right: 6pt)),
@@ -131,11 +134,6 @@
         #text(title, weight: "bold") \
         #company
         #block(list(..description), inset: (left: 8pt))
-        #set par(leading: 3pt)
-        #v(4.5pt, weak: true)
-        // #if skills != none {
-        //   skills.sorted().map(s => box(s, stroke: 0.6pt + gray, inset: (y: 2.5pt, x: 4pt), radius: 25%)).join(h(2pt))
-        // }
       ],
     ))
   }

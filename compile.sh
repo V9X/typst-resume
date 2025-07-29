@@ -2,7 +2,7 @@
 
 FIRST_FILE=$(set -- *.yaml; echo "$1")
 if [ -z "$1" ] && [ "$FIRST_FILE" = "*.yaml" ]; then
-    echo "Error: No .yaml files found in the current directory." >&2 
+    echo "Error: No .yaml files found in the current directory." >&2
     exit 1
 fi
 

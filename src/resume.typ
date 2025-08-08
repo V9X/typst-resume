@@ -8,7 +8,19 @@
   spacing: 8pt,
 )
 
-#set page(paper: "a4", margin: (x: 1.5cm, y: 2cm))
+#set page(
+  paper: "a4",
+  margin: (x: 1.5cm, y: 2cm),
+  footer: context {
+    // Required in Poland (or at least everyone thinks that it is)
+    if "rodo" in yaml and yaml.rodo and counter(page).get().first() == counter(page).final().first() {
+      text(
+        size: 5pt,
+        "I agree to the processing of personal data provided in this document for realising the recruitment process pursuant to the Personal Data Protection Act of 10 May 2018 (Journal of Laws 2018, item 1000) and in agreement with Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data, and repealing Directive 95/46/EC (General Data Protection Regulation).",
+      )
+    }
+  },
+)
 #set text(font: "new computer modern", font_size())
 #set par(leading: doc.leading, spacing: doc.spacing)
 #set grid(row-gutter: doc.leading)

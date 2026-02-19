@@ -6,6 +6,7 @@
   title_contact_spacing: 10pt,
   leading: 6pt,
   spacing: 8pt,
+  bold: 700,
 )
 
 #set page(
@@ -21,10 +22,10 @@
     }
   },
 )
-#set text(font: "new computer modern", font_size())
+#set text(font: "Inter 18pt", font_size())
 #set par(leading: doc.leading, spacing: doc.spacing)
 #set grid(row-gutter: doc.leading)
-#show link: c => text(c, weight: "bold")
+#show link: c => text(c, weight: 600)
 
 #let section(name, opt: none, content) = {
   block(
@@ -33,7 +34,7 @@
     width: 100%,
     above: doc.heading_spacing_above,
     below: doc.heading_spacing_above / 2,
-    heading(text(name, weight: "bold", font_size(1))),
+    heading(text(name, weight: doc.bold, font_size(1))),
   )
 
   block(inset: (x: 1%), content)
@@ -48,7 +49,7 @@
 
 #block()[
   #let header_informations = [
-    #text(yaml.header.name, font_size(3), weight: "bold") \
+    #text(yaml.header.name, font_size(3), weight: doc.bold) \
     #v(doc.name_title_spacing, weak: true)
     #text(yaml.header.title, font_size(2)) \
     #v(doc.title_contact_spacing, weak: true)
@@ -124,7 +125,7 @@
   ..yaml
     .skills
     .pairs()
-    .map(c => (grid.cell(text(c.at(0), weight: "bold"), align: right), c.at(1).join(", ")))
+    .map(c => (grid.cell(text(c.at(0), weight: doc.bold), align: right), c.at(1).join(", ")))
     .flatten(),
 ))
 
@@ -143,7 +144,7 @@
       align: right,
       grid.cell([#date_to \ #date_from], inset: (right: 6pt)),
       grid.cell(align: left, stroke: (left: 0.8pt), inset: (left: 6pt))[
-        #text(title, weight: "bold") \
+        #text(title, weight: doc.bold) \
         #company
         #block(list(..description), inset: (left: 8pt))
       ],
@@ -156,8 +157,8 @@
   column-gutter: 15pt,
   ..for (title, place, date_from, date_to) in yaml.education {
     (
-      text(date_from + " - " + date_to, weight: "bold"),
-      [#text(title, weight: "bold") \ #place],
+      text(date_from + " - " + date_to, weight: doc.bold),
+      [#text(title, weight: doc.bold) \ #place],
     )
   }
 ))
@@ -165,5 +166,5 @@
 #section("LANGUAGES", grid(
   columns: 2,
   column-gutter: 15pt,
-  ..yaml.languages.pairs().map(c => (text(c.at(0), weight: "bold"), c.at(1))).flatten()
+  ..yaml.languages.pairs().map(c => (text(c.at(0), weight: doc.bold), c.at(1))).flatten()
 ))

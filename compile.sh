@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 FIRST_FILE=$(set -- *.yaml; echo "$1")
 if [ -z "$1" ] && [ "$FIRST_FILE" = "*.yaml" ]; then

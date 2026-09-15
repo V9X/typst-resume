@@ -1,5 +1,6 @@
 #let font_size(..p) = 10pt * calc.pow(1.250, p.at(0, default: 0))
 #let yaml = yaml(sys.inputs.at("loc", default: "../examples/example.yaml"))
+#let lang = yaml.at("lang", default: "en")
 #let doc = (
   heading_spacing_above: 25pt,
   name_title_spacing: 8pt,
@@ -7,22 +8,26 @@
   leading: 6pt,
   spacing: 8pt,
   bold: 700,
+  footer_size: 5pt,
 )
+
+#let headings = (
+  skills: "SKILLS",
+  experience: "WORK EXPERIENCE",
+  education: "EDUCATION",
+  languages: "LANGUAGES",
+) + yaml.at("sections", default: (:))
 
 #set page(
   paper: "a4",
   margin: (x: 1.5cm, y: 2cm),
   footer: context {
-    // Required in Poland (or at least everyone thinks that it is)
-    if "rodo" in yaml and yaml.rodo and counter(page).get().first() == counter(page).final().first() {
-      text(
-        size: 5pt,
-        "I agree to the processing of personal data provided in this document for realising the recruitment process pursuant to the Personal Data Protection Act of 10 May 2018 (Journal of Laws 2018, item 1000) and in agreement with Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data, and repealing Directive 95/46/EC (General Data Protection Regulation).",
-      )
+    if "footer" in yaml and counter(page).get().first() == counter(page).final().first() {
+      text(yaml.footer, size: doc.footer_size)
     }
   },
 )
-#set text(font: "Inter 18pt", font_size())
+#set text(font: "Inter 18pt", font_size(), lang: lang)
 #set par(leading: doc.leading, spacing: doc.spacing)
 #set grid(row-gutter: doc.leading)
 #show link: c => text(c, weight: 600)
@@ -119,7 +124,7 @@
   }
 ]
 
-#section("SKILLS", grid(
+#section(headings.skills, grid(
   columns: 2,
   column-gutter: 15pt,
   ..yaml
@@ -130,7 +135,7 @@
 ))
 
 
-#section("WORK EXPERIENCE", context {
+#section(headings.experience, context {
   let dates_width = calc.min(
     100pt,
     calc.max(..yaml.experience.map(c => (c.date_from, c.date_to)).flatten().map(c => measure(c).width)) + 6pt,
@@ -152,7 +157,7 @@
   }
 })
 
-#section("EDUCATION", grid(
+#section(headings.education, grid(
   columns: 2,
   column-gutter: 15pt,
   ..for (title, place, date_from, date_to) in yaml.education {
@@ -163,7 +168,7 @@
   }
 ))
 
-#section("LANGUAGES", grid(
+#section(headings.languages, grid(
   columns: 2,
   column-gutter: 15pt,
   ..yaml.languages.pairs().map(c => (text(c.at(0), weight: doc.bold), c.at(1))).flatten()

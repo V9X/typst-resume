@@ -12,7 +12,6 @@ SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" &> /dev/null 
 
 typst compile \
     --root / \
-    --creation-timestamp 1112470620 \
     --ignore-system-fonts \
     --font-path "$SCRIPT_DIR/src/assets" \
     --input "loc=$INPUT_PATH" \
